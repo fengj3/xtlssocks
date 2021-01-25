@@ -142,11 +142,11 @@ func serve(ctx context.Context, srcConn io.ReadWriteCloser, destinationAddress s
 	group, gctx := errgroup.WithContext(ctx)
 
 	group.Go(func() error {
-		srcConn := tlssocks.NewBufferedReader(gctx, srcConn)
+		srcConn := xtlssocks.NewBufferedReader(gctx, srcConn)
 		return copyData("conn->socksConn", dstConn, srcConn)
 	})
 	group.Go(func() error {
-		dstConn := tlssocks.NewBufferedReader(gctx, dstConn)
+		dstConn := xtlssocks.NewBufferedReader(gctx, dstConn)
 		return copyData("socksConn->conn", srcConn, dstConn)
 	})
 
